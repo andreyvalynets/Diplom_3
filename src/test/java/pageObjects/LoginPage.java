@@ -1,4 +1,4 @@
-package PageObjects;
+package pageObjects;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
@@ -7,7 +7,7 @@ import org.openqa.selenium.support.How;
 
 import static com.codeborne.selenide.Selenide.$;
 
-public class ObjLoginPage {
+public class LoginPage {
 
     //поле "email"
     @FindBy(how = How.XPATH, using = "/html/body/div/div/main/div/form/fieldset[1]/div/div/input")

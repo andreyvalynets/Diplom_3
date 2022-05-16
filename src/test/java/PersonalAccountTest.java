@@ -1,12 +1,12 @@
-import PageObjects.ObjLoginPage;
-import PageObjects.ObjMainPage;
-import PageObjects.ObjPersonalAccountPage;
-import PageObjects.ObjRegisterPage;
 import io.qameta.allure.junit4.DisplayName;
 import model.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import pageObjects.LoginPage;
+import pageObjects.MainPage;
+import pageObjects.PersonalAccountPage;
+import pageObjects.RegisterPage;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -15,23 +15,23 @@ public class PersonalAccountTest {
 
     private final String BASE_URL = "https://stellarburgers.nomoreparties.site";
 
-    private ObjMainPage objMainPage;
-    private ObjLoginPage objLoginPage;
-    private ObjPersonalAccountPage objPersonalAccountPage;
+    private MainPage mainPage;
+    private LoginPage loginPage;
+    private PersonalAccountPage personalAccountPage;
     private User user;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         user = User.getRandom();
-        ObjRegisterPage objRegisterPage = open(BASE_URL + "/register", ObjRegisterPage.class);
-        objMainPage = page(ObjMainPage.class);
-        objLoginPage = page(ObjLoginPage.class);
-        objPersonalAccountPage = page(ObjPersonalAccountPage.class);
-        objRegisterPage.setNameField(user.getName());
-        objRegisterPage.setEmailField(user.getEmail());
-        objRegisterPage.setPasswordField(user.getPassword());
-        objRegisterPage.clickOnRegisterButton();
-        sleep(500);
+        RegisterPage registerPage = open(BASE_URL + "/register", RegisterPage.class);
+        mainPage = page(MainPage.class);
+        loginPage = page(LoginPage.class);
+        personalAccountPage = page(PersonalAccountPage.class);
+        registerPage.setNameField(user.getName());
+        registerPage.setEmailField(user.getEmail());
+        registerPage.setPasswordField(user.getPassword());
+        registerPage.clickOnRegisterButton();
+        open(BASE_URL + "/login");
     }
 
     @After
@@ -42,55 +42,71 @@ public class PersonalAccountTest {
     @Test
     @DisplayName("Personal Account page is opened")
     public void personalAccountPageCanBeOpenedByClickOnPersonalAccountButton() {
-        objLoginPage.setEmailAndPassword(user.getEmail(), user.getPassword());
-        objLoginPage.clickOnLoginButton();
-        objMainPage.clickOnPersonalAccountButton();
-        objPersonalAccountPage.checkThatUserLogged();
+        loginPage.setEmailAndPassword(user.getEmail(), user.getPassword());
+        loginPage.clickOnLoginButton();
+        mainPage.clickOnPersonalAccountButton();
+        personalAccountPage.checkThatUserLogged();
 
     }
 
     @Test
     @DisplayName("Constructor page is opened from Personal Account page")
     public void constructorPageCanBeOpenedFromPersonalAccountPage() {
-        objLoginPage.setEmailAndPassword(user.getEmail(), user.getPassword());
-        objLoginPage.clickOnLoginButton();
-        objMainPage.clickOnPersonalAccountButton();
-        objMainPage.clickOnConstructorButton();
-        objMainPage.tableOfConstructorIsDisplayed();
+        loginPage.setEmailAndPassword(user.getEmail(), user.getPassword());
+        loginPage.clickOnLoginButton();
+        mainPage.clickOnPersonalAccountButton();
+        mainPage.clickOnConstructorButton();
+        mainPage.tableOfConstructorIsDisplayed();
     }
 
     @Test
     @DisplayName("Constructor page is opened by click on logo")
     public void constructorPageCanBeOpenedByClickOnLogo() {
-        objLoginPage.setEmailAndPassword(user.getEmail(), user.getPassword());
-        objLoginPage.clickOnLoginButton();
-        objMainPage.clickOnPersonalAccountButton();
-        objMainPage.clickOnLogo();
-        objMainPage.tableOfConstructorIsDisplayed();
+        loginPage.setEmailAndPassword(user.getEmail(), user.getPassword());
+        loginPage.clickOnLoginButton();
+        mainPage.clickOnPersonalAccountButton();
+        mainPage.clickOnLogo();
+        mainPage.tableOfConstructorIsDisplayed();
     }
 
     @Test
     @DisplayName("LogOut user")
     public void userCanBeLogOutedByClickOnLogoutButton() {
-
-        objLoginPage.setEmailAndPassword(user.getEmail(), user.getPassword());
-        objLoginPage.clickOnLoginButton();
-        objMainPage.clickOnPersonalAccountButton();
-        objPersonalAccountPage.clickOnLogoutButton();
-        objMainPage.clickOnPersonalAccountButton();
-        objLoginPage.checkLoginButton();
+        loginPage.setEmailAndPassword(user.getEmail(), user.getPassword());
+        loginPage.clickOnLoginButton();
+        mainPage.clickOnPersonalAccountButton();
+        personalAccountPage.clickOnLogoutButton();
+        mainPage.clickOnPersonalAccountButton();
+        loginPage.checkLoginButton();
     }
 
     @Test
-    @DisplayName("All tabs of ingredients are available")
-    public void switchBetweenTabsOfConstructorTable() {
-        objLoginPage.setEmailAndPassword(user.getEmail(), user.getPassword());
-        objLoginPage.clickOnLoginButton();
-        objMainPage.clickOnSousesTab();
-        objMainPage.sousesIsDisplayed();
-        objMainPage.clickOnFillingTab();
-        objMainPage.fillingsIsDisplayed();
-        objMainPage.clickOnBreadTab();
-        objMainPage.breadIsDisplayed();
+    @DisplayName("Souses tab of ingredients is opened")
+    public void switchToSousesTabsOfConstructorTable() {
+        loginPage.setEmailAndPassword(user.getEmail(), user.getPassword());
+        loginPage.clickOnLoginButton();
+        mainPage.clickOnSousesTab();
+        mainPage.checkShriftOfSousesTab();
+    }
+
+    // will be done
+    @Test
+    @DisplayName("Fillings tab of ingredients is opened")
+    public void switchToFillingTabOfConstructorTable() {
+        loginPage.setEmailAndPassword(user.getEmail(), user.getPassword());
+        loginPage.clickOnLoginButton();
+        mainPage.clickOnFillingTab();
+        mainPage.checkShriftOfFillingTab();
+    }
+
+    // will be done
+    @Test
+    @DisplayName("Bread tab of ingredients is opened")
+    public void switchToBreadTabsOfConstructorTable() {
+        loginPage.setEmailAndPassword(user.getEmail(), user.getPassword());
+        loginPage.clickOnLoginButton();
+        mainPage.clickOnSousesTab();
+        mainPage.clickOnBreadTab();
+        mainPage.checkShriftOfBreadTab();
     }
 }

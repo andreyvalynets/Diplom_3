@@ -1,17 +1,14 @@
-package PageObjects;
+package pageObjects;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
+import static com.codeborne.selenide.Condition.cssValue;
 import static com.codeborne.selenide.Selenide.$;
 
-public class ObjMainPage {
-
-    //кнопка "Войти в Аккаунт"
-    @FindBy(how = How.XPATH, using = "/html/body/div/div/main/section[2]/div/button")
-    protected SelenideElement signInButton;
+public class MainPage {
 
     //кнопка "Личный кабинет"
     @FindBy(how = How.XPATH, using = "/html/body/div/div/header/nav/a/p")
@@ -45,25 +42,9 @@ public class ObjMainPage {
     @FindBy(how = How.XPATH, using = ".//div/span[text()='Булки']")
     protected SelenideElement breadTab;
 
-    //таблица "Конструктора" - Соус
-    @FindBy(how = How.XPATH, using = ".//img[@alt='Соус Spicy-X']")
-    protected SelenideElement souses;
-
-    //таблица "Конструктора" - Начинка
-    @FindBy(how = How.XPATH, using = ".//img[@src='https://code.s3.yandex.net/react/code/meat-02.png']")
-    protected SelenideElement filling;
-
-    //таблица "Конструктора" - Булка
-    @FindBy(how = How.XPATH, using = ".//img[@src='https://code.s3.yandex.net/react/code/bun-01.png']")
-    protected SelenideElement bread;
-
     public void clickOnPersonalAccountButton() {
         $(personalAccountButton).shouldBe(Condition.visible);
         $(personalAccountButton).click();
-    }
-
-    public void clickOnSignInButton() {
-        $(signInButton).click();
     }
 
     public void clickOnConstructorButton() {
@@ -90,15 +71,15 @@ public class ObjMainPage {
         $(breadTab).click();
     }
 
-    public void sousesIsDisplayed() {
-        $(souses).shouldBe(Condition.visible);
+    public void checkShriftOfSousesTab() {
+        $(sousesTab).shouldHave(cssValue("color", "rgba(255, 255, 255, 1)"));
     }
 
-    public void fillingsIsDisplayed() {
-        $(filling).shouldBe(Condition.visible);
+    public void checkShriftOfFillingTab() {
+        $(fillingTab).shouldHave(cssValue("color", "rgba(133, 133, 173, 1)"));
     }
 
-    public void breadIsDisplayed() {
-        $(bread).shouldBe(Condition.visible);
+    public void checkShriftOfBreadTab() {
+        $(breadTab).shouldHave(cssValue("color", "rgba(255, 255, 255, 1)"));
     }
 }
